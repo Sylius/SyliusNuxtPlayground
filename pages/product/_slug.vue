@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <FormButton :value="`${$t('addToCart')}`" type="button" />
+          <button v-on:click="addToCart" > {{$t('addToCart')}}</button>
           <span class="text-xl font-bold pl-5">
             {{
               variantsDetails[selectedVariant].price | price
@@ -80,13 +80,27 @@ export default {
       `/syliusapi/${product.translations[app.i18n.locale]['@id']}`
     );
 
-    console.log(product.variants);
     const variantsDetails = await Promise.all(
       product.variants.map(item => {
         return $axios.$get(`/syliusapi/${item}`);
       })
     );
     return { product, translations, variantsDetails};
+  },
+  methods: {
+    addToCart() {
+      let tokenValue = localStorage.getItem('cartTokenValue');
+      fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/items`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/merge-patch+json'
+        },
+        body : JSON.stringify({
+          'productVariant': this.variantsDetails[this.selectedVariant]['@id'],
+          'quantity': this.quantity
+        })
+      })
+    }
   }
 };
 </script>
