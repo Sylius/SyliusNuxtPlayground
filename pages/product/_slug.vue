@@ -45,8 +45,7 @@
           <FormButton :value="`${$t('addToCart')} (soon...)`" type="button" />
           <span class="text-xl font-bold pl-5">
             {{
-              product.variants[selectedVariant].channelPricings.FASHION_WEB
-                .price | price
+             '0'
             }}
           </span>
         </div>
@@ -83,7 +82,8 @@ export default {
 
     const variantsDetails = await Promise.all(
       product.variants.map(item => {
-        return $axios.$get(`/syliusapi/${item['@id']}`);
+
+        return $axios.$get(`/syliusapi/${item}`);
       })
     );
 
