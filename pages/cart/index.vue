@@ -6,17 +6,27 @@
     >
       <h1>{{ `${key}: ${JSON.stringify(item)}` }}</h1>
     </div>
+    =========================================
+
+    <h2>Payments</h2>
+    <div
+      v-for="payment in payments"
+      :key="payment['@id']"
+    >
+      <PaymentBlock :payment="payment"/>
+      <br>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "index.vue",
-
   data() {
     return {
       tokenValue: null,
-      order: null
+      order: null,
+      payments: null,
     };
   },
 
@@ -33,6 +43,7 @@ export default {
         .then(data=>data.json())
         .then(data => {
           this.order = data;
+          this.payments = data.payments;
         })
     }
   }
