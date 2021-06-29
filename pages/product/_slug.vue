@@ -34,7 +34,7 @@
           </div>
           <div>
             <input
-              v-model="quantity"
+              v-model.number="quantity"
               class="border rounded p-3"
               type="number"
               min="0"
@@ -100,6 +100,8 @@ export default {
           'quantity': this.quantity
         })
       })
+      console.log(this.variantsDetails[this.selectedVariant]['@id']);
+      console.log(this.quantity);
     }
   }
 };
