@@ -11,7 +11,7 @@
           :title="product.translations[$i18n.locale].name"
           :image="`${product.images[0].path}`"
           :url="localePath(`/product/${product.code}`)"
-          :price="product.variants[0].channelPricings.FASHION_WEB.price | price"
+          :defaultVariant="product.defaultVariant"
         />
       </div>
     </div>

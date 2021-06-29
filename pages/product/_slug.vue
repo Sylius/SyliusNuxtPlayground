@@ -42,11 +42,10 @@
           </div>
         </div>
         <div class="flex items-center">
-          <FormButton :value="`${$t('addToCart')} (soon...)`" type="button" />
+          <FormButton :value="`${$t('addToCart')}`" type="button" />
           <span class="text-xl font-bold pl-5">
             {{
-              product.variants[selectedVariant].channelPricings.FASHION_WEB
-                .price | price
+              variantsDetails[selectedVariant].price | price
             }}
           </span>
         </div>
@@ -81,13 +80,13 @@ export default {
       `/syliusapi/${product.translations[app.i18n.locale]['@id']}`
     );
 
+    console.log(product.variants);
     const variantsDetails = await Promise.all(
       product.variants.map(item => {
-        return $axios.$get(`/syliusapi/${item['@id']}`);
+        return $axios.$get(`/syliusapi/${item}`);
       })
     );
-
-    return { product, translations, variantsDetails };
+    return { product, translations, variantsDetails};
   }
 };
 </script>
