@@ -25,6 +25,12 @@
         </div>
 
         <div>
+          <NuxtLink :to="localePath('/cart')">
+            {{ $t('cart') }}
+          </NuxtLink>
+        </div>
+
+        <div>
           <nuxt-link
             v-for="locale in $i18n.locales"
             :key="locale.code"
