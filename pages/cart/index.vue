@@ -33,7 +33,6 @@ export default {
         .then(data=>data.json())
         .then(data => {
           this.order = data;
-          console.log(data);
         })
     }
   }
