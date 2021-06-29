@@ -16,6 +16,15 @@
       <PaymentBlock :payment="payment"/>
       <br>
     </div>
+
+    <h2>Shipments</h2>
+    <div
+      v-for="shipment in shipments"
+      :key="shipment['@id']"
+    >
+      <Shipment :shipment="shipment"/>
+      <br>
+    </div>
   </div>
 </template>
 
@@ -26,7 +35,8 @@ export default {
     return {
       tokenValue: null,
       order: null,
-      payments: null,
+      payments: [],
+      shipments: []
     };
   },
 
@@ -44,6 +54,7 @@ export default {
         .then(data => {
           this.order = data;
           this.payments = data.payments;
+          this.shipments = data.shipments;
         })
     }
   }
