@@ -20,11 +20,8 @@ export default {
   },
   mounted() {
     fetch(`/syliusapi${this.payment.method}`)
-      .then(
-        data=>data.json()
-      ).then(
-        data => {
-        console.log(data['name']);
+      .then(data=>data.json())
+      .then(data => {
         this.paymentMethodName = data['name'];
       })
   }

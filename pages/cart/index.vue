@@ -1,12 +1,9 @@
 <template>
   <div>
-    <div
-      v-for="(item, key) in order"
-      :key="key"
-    >
-      <h1>{{ `${key}: ${JSON.stringify(item)}` }}</h1>
-    </div>
-    =========================================
+    <h1>CART SUMMARY</h1>
+
+    <h2>order items</h2>
+    <CartItems :cartItems="cartItems" />
 
     <h2>Payments</h2>
     <div
@@ -36,7 +33,8 @@ export default {
       tokenValue: null,
       order: null,
       payments: [],
-      shipments: []
+      shipments: [],
+      cartItems: [],
     };
   },
 
@@ -55,6 +53,8 @@ export default {
           this.order = data;
           this.payments = data.payments;
           this.shipments = data.shipments;
+          this.cartItems = data.items;
+          console.log(data.items)
         })
     }
   }
