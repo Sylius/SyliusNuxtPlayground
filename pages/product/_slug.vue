@@ -99,6 +99,19 @@ export default {
           'productVariant': this.variantsDetails[this.selectedVariant]['@id'],
           'quantity': this.quantity
         })
+      }).then(response => {
+        if (!response.ok) {
+          fetch(`/syliusapi/api/v2/shop/orders`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/ld+json'
+            },
+            body: JSON.stringify([])
+          }).then(data => data.json()).then(data => {
+            localStorage.setItem('cartTokenValue', data.tokenValue)
+            this.addToCart();
+          })
+        }
       })
       console.log(this.variantsDetails[this.selectedVariant]['@id']);
       console.log(this.quantity);
