@@ -50,7 +50,6 @@ export default {
       fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}`)
         .then(data=>data.json())
         .then(data => {
-          console.log(data);
           this.getShippingMethods(tokenValue, data.shipments[0]['id']);
         })
     },
@@ -80,15 +79,8 @@ export default {
         .then(data=>data.json())
         .then(data => {
           this.$router.push('payment')
-
         })
     },
-    // async redirect() {
-    //   const nuxt = await loadNuxt({ for: 'start' })
-    //
-    //   const { html, error, redirected } = await nuxt.renderRoute(nuxt.localePath('/checkout/shipping'))
-    // }
-
   }
 }
 </script>

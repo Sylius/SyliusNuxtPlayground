@@ -49,7 +49,6 @@ export default {
       fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}`)
         .then(data=>data.json())
         .then(data => {
-          console.log(data);
           this.getPaymentMethods(tokenValue, data.payments[0]['id']);
         })
     },

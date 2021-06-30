@@ -129,8 +129,7 @@ export default {
       })
         .then(data=>data.json())
         .then(data => {
-          console.log(data);
-          window.location.href = "/en_US/checkout/shipping";
+          this.$router.push('shipping');
         })
     }
   }
