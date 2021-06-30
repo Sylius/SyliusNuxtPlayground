@@ -22,6 +22,12 @@
       <Shipment :shipment="shipment"/>
       <br>
     </div>
+
+    <div>
+      <NuxtLink :to="localePath('/checkout/address')">
+        <span class="font-bold">Go to checkout</span>
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
@@ -54,7 +60,6 @@ export default {
           this.payments = data.payments;
           this.shipments = data.shipments;
           this.cartItems = data.items;
-          console.log(data.items)
         })
     }
   }
