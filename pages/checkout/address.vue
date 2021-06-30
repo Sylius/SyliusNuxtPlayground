@@ -130,13 +130,9 @@ export default {
         .then(data=>data.json())
         .then(data => {
           console.log(data);
-          // window.location.href("/en_US/checkout/shipping");
+          window.location.href = "/en_US/checkout/shipping";
         })
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
