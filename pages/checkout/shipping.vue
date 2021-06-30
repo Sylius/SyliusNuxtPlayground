@@ -27,6 +27,7 @@
 </template>
 
 <script>
+
 export default {
   name: "shipping",
   data() {
@@ -78,10 +79,15 @@ export default {
         })
         .then(data=>data.json())
         .then(data => {
-          console.log(data);
+          this.$router.push('payment')
 
         })
-    }
+    },
+    // async redirect() {
+    //   const nuxt = await loadNuxt({ for: 'start' })
+    //
+    //   const { html, error, redirected } = await nuxt.renderRoute(nuxt.localePath('/checkout/shipping'))
+    // }
 
   }
 }
