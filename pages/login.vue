@@ -8,7 +8,7 @@
       >
         {{ error }}
       </div>
-      <form method="post" @submit.prevent="login">
+      <form method="post" @submit.prevent="loginV2">
         <div>
           <label class="inline-block mb-3">{{ $t('email') }}</label>
           <div>
@@ -43,8 +43,8 @@
 export default {
   data() {
     return {
-      email: '',
-      password: '',
+      email: 'shop@example.com',
+      password: 'sylius',
       error: null
     };
   },
@@ -61,6 +61,31 @@ export default {
       } catch (e) {
         this.error = e.response.data.message;
       }
+    },
+
+    loginV2() {
+      fetch(`/syliusapi/api/v2/shop/authentication-token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body : JSON.stringify({
+          email: this.email,
+          password: this.password
+        })
+      })
+        .then(data=>data.json())
+        .then(data => {
+          console.log(data)
+          this.$store.dispatch(
+            'setLoggedCustomerData',
+            {
+              customerToken: data.token,
+              iri: data.customer
+            }
+          )
+          this.$router.push('/en_US')
+        })
     }
   }
 };
