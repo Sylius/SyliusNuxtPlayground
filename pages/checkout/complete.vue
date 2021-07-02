@@ -73,7 +73,6 @@ export default {
   name: "complete",
   data() {
     return {
-      tokenValue: null,
       order: null,
       payments: [],
       shipments: [],
@@ -88,31 +87,28 @@ export default {
   },
 
   mounted() {
-    this.tokenValue = localStorage.getItem('cartTokenValue');
+    const tokenValue = this.$store.getters.cartTokenValue;
 
-    this.order = null;
-    this.getOrder(this.tokenValue);
+    fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}`)
+      .then(data=>data.json())
+      .then(data => {
+        console.log(data)
+        this.order = data;
+        this.payments = data.payments;
+        this.shipments = data.shipments;
+        this.cartItems = data.items;
+        this.shippingAddress = data.shippingAddress;
+        this.billingAddress = data.billingAddress;
+        this.itemsTotal = data.itemsTotal;
+        this.shippingTotal = data.shippingTotal;
+        this.total = data.total;
+      })
   },
 
   methods: {
-    getOrder(tokenValue) {
-      fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}`)
-        .then(data=>data.json())
-        .then(data => {
-          console.log(data)
-          this.order = data;
-          this.payments = data.payments;
-          this.shipments = data.shipments;
-          this.cartItems = data.items;
-          this.shippingAddress = data.shippingAddress;
-          this.billingAddress = data.billingAddress;
-          this.itemsTotal = data.itemsTotal;
-          this.shippingTotal = data.shippingTotal;
-          this.total = data.total;
-        })
-    },
     completeOrder() {
-      fetch(`/syliusapi/api/v2/shop/orders/${this.tokenValue}/complete`, {
+      const tokenValue = this.$store.getters.cartTokenValue;
+      fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/complete`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/merge-patch+json'

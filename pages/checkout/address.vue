@@ -114,7 +114,7 @@ export default {
 
   methods: {
     addressOrder() {
-      let tokenValue = localStorage.getItem('cartTokenValue');
+      const tokenValue = this.$store.getters.cartTokenValue;
 
       fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/address`, {
         method: 'PATCH',

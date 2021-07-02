@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     addToCart() {
-      let tokenValue = localStorage.getItem('cartTokenValue');
+      const tokenValue = this.$store.getters.cartTokenValue;
       fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/items`, {
         method: 'PATCH',
         headers: {
@@ -100,8 +100,8 @@ export default {
           'quantity': this.quantity
         })
       })
-      console.log(this.variantsDetails[this.selectedVariant]['@id']);
-      console.log(this.quantity);
+        .then(data=>data.json())
+        .then(data => {console.log(data.tokenValue)})
     }
   }
 };

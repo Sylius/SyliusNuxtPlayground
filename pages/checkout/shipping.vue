@@ -34,27 +34,24 @@ export default {
     return {
       shippingMethods: [],
       selectedShippingMethod: null,
-      tokenValue: null,
       shippingId: null
     }
   },
   mounted() {
-    this.tokenValue = localStorage.getItem('cartTokenValue');
-
-    this.order = null;
-    this.getOrder(this.tokenValue);
+    this.getOrder();
   },
 
   methods: {
-    getOrder(tokenValue) {
+    getOrder() {
+      const tokenValue = this.$store.getters.cartTokenValue;
       fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}`)
         .then(data=>data.json())
         .then(data => {
           this.getShippingMethods(tokenValue, data.shipments[0]['id']);
         })
     },
+
     getShippingMethods(tokenValue, shippingId) {
-      this.tokenValue = tokenValue;
       this.shippingId = shippingId;
       fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/shipments/${shippingId}/methods`)
         .then(data=>data.json())
@@ -65,8 +62,11 @@ export default {
           this.shippingMethods = data['hydra:member'];
         })
     },
+
     ship() {
-      fetch(`/syliusapi/api/v2/shop/orders/${this.tokenValue}/shipments/${this.shippingId}`,
+      const tokenValue = this.$store.getters.cartTokenValue;
+
+      fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/shipments/${this.shippingId}`,
         {
           method: 'PATCH',
           headers: {
