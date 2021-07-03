@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <button v-on:click="addToCart" > {{$t('addToCart')}}</button>
+          <button v-on:click="addToCart" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" > {{$t('addToCart')}}</button>
           <span class="text-xl font-bold pl-5">
             {{
               variantsDetails[selectedVariant].price | price
