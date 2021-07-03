@@ -88,7 +88,7 @@
         />
       </div>
     </div>
-    <div>
+    <div class="text-right">
       <button @click="addressOrder" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Chose shipping</button>
     </div>
   </div>

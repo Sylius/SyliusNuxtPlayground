@@ -1,27 +1,34 @@
 <template>
-  <div>
-    <table>
-      <tr>
-        <th>shipping name</th>
-        <th>cost</th>
-      </tr>
+  <div class="mx-auto">
+    <div class="bg-white shadow-md rounded my-6">
+      <table class="text-left w-full border-collapse">
+        <thead>
+          <tr>
+            <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">Shipping</th>
+            <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-center">Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="shippingMethod in shippingMethods">
+            <td class="py-4 px-6 border-b border-grey-light">
+              <input type="radio"
+                     :id="shippingMethod.id"
+                     name="shippingMethod"
+                     :value="shippingMethod['@id']"
+                     v-model="selectedShippingMethod"
+                     :checked="shippingMethod['@id'] == selectedShippingMethod"
+              >
 
-    </table>
-    <div v-for="shippingMethod in shippingMethods">
-      <input type="radio"
-             :id="shippingMethod.id"
-             name="shippingMethod"
-             :value="shippingMethod['@id']"
-             v-model="selectedShippingMethod"
-             :checked="shippingMethod['@id'] == selectedShippingMethod"
-      >
+              <label :for="shippingMethod.id"  class="cursor-pointer">{{shippingMethod.name}}</label>
+            </td>
+            <td class="py-4 px-6 border-b border-grey-light text-center">{{shippingMethod.price | price}}</td>
 
-      <label :for="shippingMethod.id">{{shippingMethod.name}}</label>
-
+          </tr>
+        </tbody>
+      </table>
     </div>
-
-    <div>
-      <button @click="ship" >Chose shipping</button>
+    <div class="text-right">
+      <button @click="ship" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Chose shipping</button>
     </div>
   </div>
 </template>
