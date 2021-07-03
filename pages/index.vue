@@ -38,21 +38,18 @@ export default {
     return { products };
   },
   mounted() {
-    if (!localStorage.getItem('cartTokenValue') || localStorage.getItem('cartTokenValue') === 'null') {
-      this.blameCart();
-    }
-  },
-
-  methods: {
-    blameCart(){
-      fetch(`/syliusapi/api/v2/shop/orders`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/ld+json'
-        },
-        body : JSON.stringify([])
-      }).then(data=>data.json()).then(data => {localStorage.setItem('cartTokenValue', data.tokenValue)})
-    }
+    fetch(`/syliusapi/api/v2/shop/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/ld+json'
+      },
+      body : JSON.stringify([])
+    })
+      .then(data=>data.json())
+      .then(data => {
+        this.$store.dispatch('setCartTokenValue', data.tokenValue)
+        console.log(data.tokenValue)
+      })
   }
 };
 </script>

@@ -33,28 +33,28 @@ export default {
     return {
       paymentMethods: [],
       selectedPaymentMethod: null,
-      tokenValue: null,
       paymentId: null
     }
   },
   mounted() {
-    this.tokenValue = localStorage.getItem('cartTokenValue');
-
-    this.order = null;
-    this.getOrder(this.tokenValue);
+    this.getOrder();
   },
 
   methods: {
-    getOrder(tokenValue) {
+    getOrder() {
+      const tokenValue = this.$store.getters.cartTokenValue;
+
       fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}`)
         .then(data=>data.json())
         .then(data => {
-          this.getPaymentMethods(tokenValue, data.payments[0]['id']);
+          this.getPaymentMethods(data.payments[0]['id']);
         })
     },
-    getPaymentMethods(tokenValue, shippingId) {
-      this.tokenValue = tokenValue;
+
+    getPaymentMethods(shippingId) {
+      const tokenValue = this.$store.getters.cartTokenValue;
       this.paymentId = shippingId;
+
       fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/payments/${shippingId}/methods`)
         .then(data=>data.json())
         .then(data => {
@@ -64,8 +64,10 @@ export default {
           this.paymentMethods = data['hydra:member'];
         })
     },
+
     selectPayment() {
-      fetch(`/syliusapi/api/v2/shop/orders/${this.tokenValue}/payments/${this.paymentId}`,
+      const tokenValue = this.$store.getters.cartTokenValue;
+      fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/payments/${this.paymentId}`,
         {
           method: 'PATCH',
           headers: {

@@ -45,14 +45,13 @@ export default {
   },
 
   mounted() {
-    this.tokenValue = localStorage.getItem('cartTokenValue');
-
-    this.order = null;
-    this.getOrder(this.tokenValue);
+    this.getOrder();
   },
 
   methods: {
-    getOrder(tokenValue) {
+    getOrder() {
+      const tokenValue = this.$store.getters.cartTokenValue;
+
       fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}`)
         .then(data=>data.json())
         .then(data => {
