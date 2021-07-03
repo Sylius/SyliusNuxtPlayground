@@ -38,13 +38,7 @@
           <div class="text-sm text-indigo-500 text-xl font-semibold leading-loose">Shipping Address</div>
         </div>
         <div>
-          <div
-            v-for="(value, key) in shippingAddress"
-            :key="key"
-            v-if="key[0] != '@'"
-          >
-            <b>{{ key.replace( /([A-Z])/g, " $1" ).charAt(0).toUpperCase() + key.replace( /([A-Z])/g, " $1" ).slice(1) }}</b>: {{ value }}
-          </div>
+          <Address :address="shippingAddress" />
         </div>
       </div>
       <div class="float-left w-1/2">
@@ -52,13 +46,7 @@
           <div class="text-sm text-indigo-500 text-xl font-semibold leading-loose">Billing Address</div>
         </div>
         <div>
-          <div
-            v-for="(value, key) in billingAddress"
-            :key="key"
-            v-if="key[0] != '@'"
-          >
-            <b>{{ key.replace( /([A-Z])/g, " $1" ).charAt(0).toUpperCase() + key.replace( /([A-Z])/g, " $1" ).slice(1) }}</b>: {{ value }}
-          </div>
+          <Address :address="shippingAddress" />
         </div>
       </div>
     </div>

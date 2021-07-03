@@ -100,8 +100,6 @@ export default {
           'quantity': this.quantity
         })
       })
-        .then(data=>data.json())
-        .then(data => {console.log(data.tokenValue)})
     }
   }
 };
