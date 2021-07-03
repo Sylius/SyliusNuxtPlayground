@@ -8,7 +8,7 @@
           <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-center">Quantity</th>
           <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-center">Unit Price</th>
           <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-center">Total</th>
-          <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-center">Action</th>
+          <th v-if="edit != false" class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-center">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -17,7 +17,7 @@
           <td class="py-4 px-6 border-b border-grey-light text-center">{{cartItem['quantity']}}</td>
           <td class="py-4 px-6 border-b border-grey-light text-center">{{cartItem['unitPrice'] | price}}</td>
           <td class="py-4 px-6 border-b border-grey-light text-center">{{cartItem['total'] | price}}</td>
-          <td class="py-4 px-6 border-b border-grey-light text-center">
+          <td v-if="edit != false" class="py-4 px-6 border-b border-grey-light text-center">
             <button @click="removeItemFromCart(row['id'])" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-3 text-xs rounded">remove item</button>
           </td>
         </tr>
@@ -31,7 +31,7 @@
 export default {
   name: "CartItems",
 
-  props: ['cartItems'],
+  props: ['cartItems', 'edit'],
 
   methods: {
     removeItemFromCart(itemId) {

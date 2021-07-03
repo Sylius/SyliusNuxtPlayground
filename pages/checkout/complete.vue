@@ -1,11 +1,18 @@
 <template>
   <div>
-    <h1>CART SUMMARY</h1>
+    <div class="mx-auto w-full justify-center leading-loose">
+      <div class="uppercase text-sm text-green-600 text-3xl font-semibold leading-loose w-1/2 mx-auto text-center">cart summary</div>
+    </div>
 
-    <h2>order items</h2>
-    <CartItems :cartItems="cartItems" />
+    <div class="h-12"></div>
+    <div class="mx-auto w-full justify-center leading-loose">
+      <div class="text-sm text-indigo-500 text-xl font-semibold leading-loose">Order items</div>
+    </div>
+    <CartItems :cartItems="cartItems" :edit="false"/>
 
-    <h2>Payments</h2>
+    <div class="mx-auto w-full justify-center leading-loose">
+      <div class="text-sm text-indigo-500 text-xl font-semibold leading-loose">Payments</div>
+    </div>
     <div
       v-for="payment in payments"
       :key="payment['@id']"
@@ -14,7 +21,9 @@
       <br>
     </div>
 
-    <h2>Shipments</h2>
+    <div class="mx-auto w-full justify-center leading-loose">
+      <div class="text-sm text-indigo-500 text-xl font-semibold leading-loose">Shipments</div>
+    </div>
     <div
       v-for="shipment in shipments"
       :key="shipment['@id']"
@@ -23,46 +32,76 @@
       <br>
     </div>
 
-    <b>Shipping address</b>
-    <div>
-      <div
-        v-for="(value, key) in shippingAddress"
-        :key="key"
-      >
-        {{ key }} : {{ value }}
+    <div class="grid-rows-1 grid-cols-2 h-48">
+      <div class="float-left w-1/2">
+        <div class="mx-auto w-full justify-center leading-loose">
+          <div class="text-sm text-indigo-500 text-xl font-semibold leading-loose">Shipping Address</div>
+        </div>
+        <div>
+          <div
+            v-for="(value, key) in shippingAddress"
+            :key="key"
+            v-if="key[0] != '@'"
+          >
+            <b>{{ key.replace( /([A-Z])/g, " $1" ).charAt(0).toUpperCase() + key.replace( /([A-Z])/g, " $1" ).slice(1) }}</b>: {{ value }}
+          </div>
+        </div>
       </div>
-    </div>
-    <br/>
-    <b>Billing address</b>
-    <div>
-      <div
-        v-for="(value, key) in billingAddress"
-        :key="key"
-      >
-        {{ key }} : {{ value }}
+      <div class="float-left w-1/2">
+        <div class="mx-auto w-full justify-center leading-loose">
+          <div class="text-sm text-indigo-500 text-xl font-semibold leading-loose">Billing Address</div>
+        </div>
+        <div>
+          <div
+            v-for="(value, key) in billingAddress"
+            :key="key"
+            v-if="key[0] != '@'"
+          >
+            <b>{{ key.replace( /([A-Z])/g, " $1" ).charAt(0).toUpperCase() + key.replace( /([A-Z])/g, " $1" ).slice(1) }}</b>: {{ value }}
+          </div>
+        </div>
       </div>
-    </div>
-    <br/>
-    <div>
-      <p>item total: {{itemsTotal | price}}</p>
-      <p>shipping total: {{shippingTotal | price}}</p>
-      <p>total: {{total | price}}</p>
     </div>
 
-    <br/>
     <div>
-      <textarea
+      <div class="mx-auto w-full justify-center leading-loose">
+        <div class="h-12"></div>
+
+        <div class="text-sm text-indigo-500 text-xl font-semibold leading-loose text-center">Summary</div>
+      </div>
+      <div class="mx-auto">
+        <div class="bg-white shadow-md rounded my-6">
+          <table class="text-left w-full border-collapse">
+            <thead>
+            <tr>
+              <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-center">Item Total</th>
+              <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-center">Shipping Total</th>
+              <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-center">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td class="py-4 px-6 border-b border-grey-light text-center">{{itemsTotal | price}}</td>
+              <td class="py-4 px-6 border-b border-grey-light text-center">{{shippingTotal | price}}</td>
+              <td class="py-4 px-6 border-b border-grey-light text-center font-bold">{{total | price}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div >
+      <textarea class="w-1/2 border-2 p-3"
         id="notes"
         v-model="notes"
         placeholder="notes"
       >
-
       </textarea>
     </div>
-    <div>
-      <br/>
+    <div class="text-right">
       <button @click="completeOrder">
-        <span class="font-bold">Go to checkout</span>
+        <span class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Finalize Order</span>
       </button>
     </div>
   </div>
