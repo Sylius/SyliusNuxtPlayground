@@ -9,6 +9,12 @@
           >
             Dashboard
           </div>
+        <div
+          class="flex-initial p-2 m-2 w-auto bg-teal-400 rounded hover:bg-teal-700"
+          @click="setActiveView('customer-data-update')"
+        >
+          Customer's data
+        </div>
           <div
             class="flex-initial p-2 m-2 w-auto bg-teal-400 rounded hover:bg-teal-700"
             @click="setActiveView('orders-index')"
@@ -29,6 +35,13 @@
           :email="email"
           :subscribedToNewsletter="subscribedToNewsletter"
         />
+        <CustomerDataUpdate
+          v-if="activeView === 'customer-data-update'"
+          :firstName="firstName"
+          :lastName="lastName"
+          :email="email"
+          :subscribedToNewsletter="subscribedToNewsletter"
+        />
         <OrdersIndex
           v-if="activeView === 'orders-index'"
           :orders="orders"
@@ -43,14 +56,12 @@
 </template>
 
 <script>
-import CustomerAddresses from "../../components/account/CustomerAddresses";
 export default {
-  components: {CustomerAddresses},
   data() {
     return {
-      firstName: 'test',
-      lastName: 'testowy',
-      email: 'test@test.com',
+      firstName: '',
+      lastName: '',
+      email: '',
       subscribedToNewsletter: false,
       orders: [],
       activeView: 'customer-dashboard',
@@ -86,7 +97,6 @@ export default {
       .then(data => data.json())
       .then(data => {
         this.orders = data['hydra:member']
-        console.log(data['hydra:member'])
       })
   },
   methods: {
