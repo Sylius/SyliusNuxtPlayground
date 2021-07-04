@@ -100,6 +100,28 @@ export default {
           'quantity': this.quantity
         })
       })
+        .then(data => {
+          if (data.ok) {
+            return data.json()
+          }
+          throw Error(data.statusText);
+        })
+        .then(data => {
+          this.$store.dispatch('setNotification',
+            {
+              type: 'success',
+              message: 'Product added to cart',
+              time: 1000
+            })
+        })
+        .catch(() => {
+          this.$store.dispatch('setNotification',
+            {
+              type: 'fail',
+              message: 'Product not added to cart',
+              time: 1000
+            })
+        })
     }
   }
 };

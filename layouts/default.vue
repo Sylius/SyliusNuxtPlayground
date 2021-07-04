@@ -2,6 +2,7 @@
   <div class="flex flex-col min-h-screen">
     <div class="mb-8">
       <Header />
+      <Notification />
     </div>
     <div class="container mx-auto my-6 px-6 flex-grow">
       <Nuxt />

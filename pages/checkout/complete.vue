@@ -144,10 +144,29 @@ export default {
           'notes': this.notes,
         })
       })
-        .then(data=>data.json())
         .then(data => {
-          console.log(data)
+          if (data.ok) {
+            return data.json()
+          }
+          throw Error(data.statusText);
         })
+        .then(data => {
+          this.$store.dispatch('setNotification',
+            {
+              type: 'success',
+              message: 'Order completed',
+              time: 1000
+            })
+          this.$router.push(this.$router.app.localePath('/'));
+        })
+        .catch(() => {
+          this.$store.dispatch('setNotification',
+            {
+              type: 'fail',
+              message: 'Error when completing the order',
+              time: 1000
+            })
+      })
     }
   }
 }

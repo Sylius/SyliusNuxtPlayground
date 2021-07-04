@@ -5,7 +5,12 @@ const createStore = () => {
     state: {
       cartTokenValue: null,
       customerToken: null,
-      loggedCustomerIri: null
+      loggedCustomerIri: null,
+      notification: {
+        type: null,
+        message: null,
+        time: null
+      }
     },
     mutations: {
       setCartTokenValue(state, tokenValue) {
@@ -18,6 +23,12 @@ const createStore = () => {
 
       setLoggedCustomerIri(state, iri) {
         state.loggedCustomerIri = iri;
+      },
+
+      setNotification(state, notification) {
+        state.notification.type = notification.type;
+        state.notification.message = notification.message;
+        state.notification.time = Date.now() + notification.time;
       }
     },
     actions: {
@@ -28,6 +39,10 @@ const createStore = () => {
       setLoggedCustomerData(context, payload) {
         context.commit('setCustomerToken', payload.customerToken);
         context.commit('setLoggedCustomerIri', payload.iri);
+      },
+
+      setNotification(context, notification) {
+        context.commit('setNotification', notification)
       }
     },
     getters: {
@@ -55,6 +70,10 @@ const createStore = () => {
 
       getLoggedCustomerIri(state) {
         return state.loggedCustomerIri;
+      },
+
+      getNotification(state) {
+        return state.notification;
       }
     }
   })
