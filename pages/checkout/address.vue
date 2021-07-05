@@ -103,7 +103,7 @@ export default {
       billingAddress: {
         firstName: "Lucifer",
         lastName: "Morningstar",
-        countryCode: "PL",
+        countryCode: "US",
         provinceName: "Seaside Fwy",
         street: "string",
         city: "string",
