@@ -64,24 +64,16 @@ export default {
     },
 
     loginV2() {
-      fetch(`/syliusapi/api/v2/shop/authentication-token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body : JSON.stringify({
-          email: this.email,
-          password: this.password
-        })
-      })
-        .then(data=>data.json())
+      const { shopLogin } = require("sylius-js-sdk");
+
+      const shopLoginApi = new shopLogin();
+      shopLoginApi.login(this.email, this.password)
         .then(data => {
-          console.log(data)
           this.$store.dispatch(
             'setLoggedCustomerData',
             {
-              customerToken: data.token,
-              iri: data.customer
+              customerToken: data.data.token,
+              iri: data.data.customer
             }
           )
           this.$router.push('/en_US')
