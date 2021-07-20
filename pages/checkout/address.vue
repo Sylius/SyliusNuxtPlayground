@@ -114,20 +114,12 @@ export default {
 
   methods: {
     addressOrder() {
-      const tokenValue = this.$store.getters.cartTokenValue;
+      const { shopClient } = require("sylius-js-sdk");
 
-      fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/address`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/merge-patch+json'
-        },
-        body : JSON.stringify({
-          'email': this.email,
-          'billingAddress': this.billingAddress,
-          'shippingAddress': this.billingAddress
-        })
-      })
-        .then(data=>data.json())
+      const tokenValue = this.$store.getters.cartTokenValue;
+      const shopClientAPI = new shopClient();
+
+      shopClientAPI.cart.addressCart(tokenValue, this.email, this.billingAddress)
         .then(data => {
           this.$router.push('shipping');
         })

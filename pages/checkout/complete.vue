@@ -134,19 +134,14 @@ export default {
 
   methods: {
     completeOrder() {
+      const { shopClient } = require("sylius-js-sdk");
+
       const tokenValue = this.$store.getters.cartTokenValue;
-      fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/complete`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/merge-patch+json'
-        },
-        body : JSON.stringify({
-          'notes': this.notes,
-        })
-      })
+      const shopClientAPI = new shopClient();
+      shopClientAPI.cart.completeCart(tokenValue, this.notes)
         .then(data => {
-          if (data.ok) {
-            return data.json()
+          if (data.status === 200) {
+            return data
           }
           throw Error(data.statusText);
         })

@@ -3,7 +3,7 @@
     <div class="text-4xl font-bold mb-10">{{ $t('latestProducts') }}</div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
       <div
-        v-for="product in products['hydra:member']"
+        v-for="product in products"
         :key="product.code"
         class="mb-4"
       >
@@ -29,26 +29,19 @@ export default {
       products: []
     };
   },
-
-  async asyncData({ $axios, params }) {
-    const products = await $axios.$get(
-      `/syliusapi/api/v2/shop/products?itemsPerPage=4&page=1`
-    );
-
-    return { products };
-  },
   mounted() {
-    fetch(`/syliusapi/api/v2/shop/orders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/ld+json'
-      },
-      body : JSON.stringify([])
-    })
-      .then(data=>data.json())
+    const { shopClient } = require("sylius-js-sdk");
+
+    const shopClientAPI = new shopClient();
+
+    shopClientAPI.product.getProducts()
       .then(data => {
-        this.$store.dispatch('setCartTokenValue', data.tokenValue)
-        console.log(data.tokenValue)
+        this.products = data.data['hydra:member'];
+      })
+
+    shopClientAPI.cart.createCart()
+      .then(data => {
+        this.$store.dispatch('setCartTokenValue', data.data.tokenValue)
       })
   }
 };
