@@ -30,16 +30,16 @@ export default {
     };
   },
   mounted() {
-    const { cart, shopProduct } = require("sylius-js-sdk");
+    const { shopClient } = require("sylius-js-sdk");
 
-    const shopProductsApi = new shopProduct();
-    shopProductsApi.getProducts()
+    const shopClientAPI = new shopClient();
+
+    shopClientAPI.product.getProducts()
       .then(data => {
         this.products = data.data['hydra:member'];
       })
 
-    const cartApi = new cart();
-      cartApi.getCart()
+    shopClientAPI.cart.createCart()
       .then(data => {
         this.$store.dispatch('setCartTokenValue', data.data.tokenValue)
       })

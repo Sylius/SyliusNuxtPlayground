@@ -64,9 +64,9 @@ export default {
     },
 
     loginV2() {
-      const { shopLogin } = require("sylius-js-sdk");
+      const { login } = require("sylius-js-sdk");
 
-      const shopLoginApi = new shopLogin();
+      const shopLoginApi = new login();
       shopLoginApi.login(this.email, this.password)
         .then(data => {
           this.$store.dispatch(

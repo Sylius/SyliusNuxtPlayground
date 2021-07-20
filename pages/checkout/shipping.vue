@@ -50,11 +50,14 @@ export default {
 
   methods: {
     getOrder() {
+      const { shopClient } = require("sylius-js-sdk");
+
       const tokenValue = this.$store.getters.cartTokenValue;
-      fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}`)
-        .then(data=>data.json())
+      const shopClientAPI = new shopClient();
+
+      shopClientAPI.cart.getCart(tokenValue)
         .then(data => {
-          this.getShippingMethods(tokenValue, data.shipments[0]['id']);
+          this.getShippingMethods(tokenValue, data.data.shipments[0]['id']);
         })
     },
 
@@ -71,19 +74,12 @@ export default {
     },
 
     ship() {
-      const tokenValue = this.$store.getters.cartTokenValue;
+      const { shopClient } = require("sylius-js-sdk");
 
-      fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/shipments/${this.shippingId}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/merge-patch+json'
-          },
-          body : JSON.stringify({
-            'shippingMethod': this.selectedShippingMethod,
-          })
-        })
-        .then(data=>data.json())
+      const tokenValue = this.$store.getters.cartTokenValue;
+      const shopClientAPI = new shopClient();
+
+      shopClientAPI.cart.setShipping(tokenValue, this.shippingId, this.selectedShippingMethod)
         .then(data => {
           this.$router.push('payment')
         })

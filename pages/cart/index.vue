@@ -58,15 +58,18 @@ export default {
 
   methods: {
     getOrder() {
-      const tokenValue = this.$store.getters.cartTokenValue;
+      const { shopClient } = require("sylius-js-sdk");
 
-      fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}`)
-        .then(data=>data.json())
+      const tokenValue = this.$store.getters.cartTokenValue;
+      const shopClientAPI = new shopClient();
+
+      shopClientAPI.cart.getCart(tokenValue)
         .then(data => {
-          this.order = data;
-          this.payments = data.payments;
-          this.shipments = data.shipments;
-          this.cartItems = data.items;
+          console.log(data);
+          this.order = data.data;
+          this.payments = data.data.payments;
+          this.shipments = data.data.shipments;
+          this.cartItems = data.data.items;
         })
     }
   }

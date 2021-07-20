@@ -89,20 +89,15 @@ export default {
   },
   methods: {
     addToCart() {
+      const { shopClient } = require("sylius-js-sdk");
       const tokenValue = this.$store.getters.cartTokenValue;
-      fetch(`/syliusapi/api/v2/shop/orders/${tokenValue}/items`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/merge-patch+json'
-        },
-        body : JSON.stringify({
-          'productVariant': this.variantsDetails[this.selectedVariant]['@id'],
-          'quantity': this.quantity
-        })
-      })
+
+      const shopClientAPI = new shopClient();
+
+      shopClientAPI.cart.addToCart(tokenValue, this.variantsDetails[this.selectedVariant]['@id'], this.quantity)
         .then(data => {
-          if (data.ok) {
-            return data.json()
+          if (data.status === 200) {
+            return data
           }
           throw Error(data.statusText);
         })
